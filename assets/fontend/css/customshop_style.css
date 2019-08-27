@@ -1,0 +1,116 @@
+
+.cat-title{
+    font-size: 1.1429em !important;
+    line-height: 1.4 !important;
+    font-weight: 700 !important;
+    color: #313131 !important;
+    margin: 0 !important;
+    margin-bottom: 1.25em !important;
+    letter-spacing: normal !important;
+}
+.padding-zero{
+    padding: 0;
+}
+.padding-10px{
+    padding: 10px;
+}
+.top-menu-padding{
+    padding: 10px 0 10px 20px;
+}
+.fotter-menu-padding{
+    padding: 5px 0;
+}
+.fotter-input{
+ width: 45% !important; 
+ padding: 10px;
+ float: left;
+ background: #F3F3F3;
+ border: 0; 
+}
+.fotter-subscribe-btn{
+    width: 45%;
+    margin-top: 20px; 
+    background: #F48E00;
+    color: #fff;
+}
+.margin-left-5-percent{
+    margin-left: 5%;
+}
+.font-color1{
+    color:#505050;
+}
+.social-container ul { 
+  display:flex;
+}
+
+.social-container ul li {
+  list-style: none;
+}
+
+.social-container ul li a { 
+    width: 50px;
+    height: 50PX;
+    display: block;
+    text-align: center;
+    margin-right: 15PX;
+    border-radius: 50%;
+    padding: 6px;
+    box-sizing: border-box;
+    text-decoration: none;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+    background: linear-gradient(0deg, #ddd, #fff);
+    transition: .5s;
+}
+
+.social-container ul li a:hover {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.social-container ul li a .fa {
+  widht: 100%;
+  height:100%;
+  display:block;
+  background: linear-gradient(0deg, #fff, #ddd);
+  border-radius: 50%;
+  line-height: calc(60px - 12px);
+  font-size:18px;
+  color: #262626;
+  transition: .5s;
+}
+
+.social-container ul li:nth-child(1) a:hover .fa {
+  color: #3b5998;
+}
+
+.social-container ul li:nth-child(2) a:hover .fa {
+  color: #00aced;
+}
+
+.social-container ul li:nth-child(3) a:hover .fa {
+  color: #dd4b39;
+}
+
+.social-container ul li:nth-child(4) a:hover .fa {
+  color: #007bb6;
+}
+
+.social-container ul li:nth-child(5) a:hover .fa {
+  color: #e4405f;
+}
+.product-order-cart{
+     visibility: hidden;
+    opacity: 0;
+    left: 0;
+    position: absolute; 
+    bottom: 43px;
+    padding: 0;
+    z-index: 1;
+    -webkit-transition: visibility 0s, opacity 0.5s linear;
+     transition: visibility 0s, opacity 0.5s linear;
+}
+.product-hover-area:hover .product-order-cart{
+    visibility: visible;
+    opacity: 1;
+    
+    
+}
