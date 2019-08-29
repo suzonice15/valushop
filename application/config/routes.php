@@ -149,7 +149,8 @@ $route['setting-facebook'] = 'setting/SettingController/facebook';
 /********************************* website          *********************************/
 
 $route['default_controller'] = 'Home';
-$route['products'] = 'Home/product';
+$route['chechout'] = 'Home/checkout';
+
 
 
 

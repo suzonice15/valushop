@@ -64,8 +64,6 @@ class Ajax extends CI_Controller
 		$product_qty = $this->input->post('product_qty');
 		$product_price = $this->input->post('product_price');
 		$product_title = $this->input->post('product_title');
-		$product_size = $this->input->post('product_size');
-		$product_color = $this->input->post('product_color');
 
 
 		$data = array(
@@ -73,7 +71,6 @@ class Ajax extends CI_Controller
 			'qty' => $product_qty,
 			'price' => $product_price,
 			'name' => $product_id,
-			'options' => array('Size' => $product_size, 'Color' => $product_color)
 		);
 
 		$this->cart->insert($data);
@@ -83,59 +80,12 @@ class Ajax extends CI_Controller
 			$cart_items += $val['qty'];
 			$cart_total += $val['subtotal'];
 		}
-		$html = '<table class="table table-striped table-bordered">
-			<tr>
-				<td colspan="3" class="cart-heading">
-					<span class="itemno">' . $cart_items . '</span> ITEMS
-				</td>
-			</tr>';
-		foreach ($this->cart->contents() as $items) {
-			$featured_image = get_product_meta($items['id'], 'featured_image');
-			$featured_image = get_media_path($featured_image, 'thumb');
 
-			$html .= '<tr>
-					<td class="total text-center">
-						<a class="remove_from_cart" data-rowid="' . $items['rowid'] . '"><i class="tooltip-test font24 fa fa-remove"></i></a>
-					</td>
-					<td class="product-item text-center">
-						<a>
-							<img src="' . $featured_image . '" height="30" width="30"/>
-						</a>
-						<div class="item-name-and-price">
-							<div class="item-name">' . get_product_title($items['id']) . '</div>
-							<div class="item-price">
-								TK ' . $this->cart->format_number($items['price']) . ' x ' . $items['qty'] . '
-								<div class="quantity-action" data-rowid="' . $items['rowid'] . '">
-									<div class="qtyplus" data-action_type="plus">+</div>
-									<div class="qtyminus" data-action_type="minus">-</div>
-								</div>
-							</div>
-						</div>
-					</td>
-					<td class="product-price">TK ' . $this->cart->format_number($items['subtotal']) . '</td>
-				</tr>';
-		}
-		$html .= '<tr>
-				<td colspan="3" class="cart-action">
-					<div class="row row5">
-						<div class="col-sm-6">
-							<a href="' . base_url('checkout') . '">Place Order</a>
-						</div>
-						<div class="col-sm-6">
-							<div class="cart-total text-right">TK ' . $this->cart->format_number($this->cart->total()) . '</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>';
 
-		echo json_encode(array(
-			"html" => $html,
-			"current_cart_item" => $cart_items,
-			"current_cart_total" => $this->cart->format_number($this->cart->total())
-		));
 
-		die();
+	echo  json_encode($cart_items );
+
+
 	}
 
 	public function remove_from_cart()

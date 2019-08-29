@@ -55,7 +55,7 @@ class SliderController extends MX_Controller
 					$config['create_thumb'] = false;
 					$config['maintain_ratio'] = false;
 					$config['new_image'] = $uploaded_image_path;
-					$config['width'] = 900;
+					$config['width'] = 1188;
 					$config['height'] = 300;
 					$this->image_lib->clear();
 					$this->image_lib->initialize($config);
@@ -124,7 +124,7 @@ class SliderController extends MX_Controller
 					$config['create_thumb'] = false;
 					$config['maintain_ratio'] = false;
 					$config['new_image'] = $uploaded_image_path;
-					$config['width'] = 900;
+					$config['width'] = 1188;
 					$config['height'] = 300;
 					$this->image_lib->clear();
 					$this->image_lib->initialize($config);

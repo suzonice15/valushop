@@ -210,7 +210,7 @@ class ProductController extends MX_Controller
 						$config['new_image'] = $uploaded_image_path;
 						$config['width'] = 150;
 						$config['height'] = 150;
-						$config['quality'] = '60%';
+						$config['quality'] = '50%';
 						$this->image_lib->clear();
 						$this->image_lib->initialize($config);
 						$this->image_lib->resize();
@@ -236,7 +236,7 @@ class ProductController extends MX_Controller
 							$config['new_image'] = $uploaded_file_path;
 							$config['width'] = 150;
 							$config['height'] = 150;
-							$config['quality'] = '60%';
+							$config['quality'] = '50%';
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
 							$this->image_lib->resize();
@@ -271,7 +271,7 @@ class ProductController extends MX_Controller
 							$config['new_image'] = $uploaded_image_path;
 							$config['width'] = 300;
 							$config['height'] = 300;
-							$config['quality'] = '60%';
+							$config['quality'] = '50%';
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
 							$this->image_lib->resize();
@@ -483,7 +483,7 @@ class ProductController extends MX_Controller
 						$config['new_image'] = $uploaded_image_path;
 						$config['width'] = 150;
 						$config['height'] = 150;
-						$config['quality'] = '60%';
+						$config['quality'] = '50%';
 						$this->image_lib->clear();
 						$this->image_lib->initialize($config);
 						$this->image_lib->resize();
@@ -508,7 +508,7 @@ class ProductController extends MX_Controller
 							$config['new_image'] = $uploaded_image_path;
 							$config['width'] = 150;
 							$config['height'] = 150;
-							$config['quality'] = '60%';
+							$config['quality'] = '50%';
 
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);

@@ -117,4 +117,14 @@ class Home extends CI_Controller
 		die();
 	}
 
+	public  function  checkout(){
+		$data['page_name'] = 'home';
+		$data['seo_title'] = get_option('home_seo_title');
+		$data['seo_keywords'] = get_option('home_seo_keywords');
+		$data['seo_content'] = get_option('home_seo_content');
+		$data['home'] = $this->load->view('website/checkout', $data, true);
+		$this->load->view('website/home', $data);
+
+	}
+
 }
