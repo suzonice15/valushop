@@ -45,6 +45,12 @@ class Custom404 extends MX_Controller
 				$data['seo_content']	=	get_product_meta($post->product_id, 'seo_content');
 //				$data['home']=$this->load->view('product_font_view', $data,true );
 //				$this->load->view('website/home',$data);
+				$sql="SELECT category_title,category_name FROM `term_relation` join category on category.category_id=term_relation.term_id
+WHERE product_id=$post->product_id limit 1";
+			$category=get_result($sql);
+				$data['breadcumb_category']=$category[0]->category_title;
+				$data['breadcumb_category_link']=$category[0]->category_name;
+			//print_r($breadcumb_category);
 				$this->load->view('website/header', $data);
 				$this->load->view('website/product_font_view', $data);
 				$this->load->view('website/footer', $data);
@@ -56,7 +62,11 @@ class Custom404 extends MX_Controller
 				$price_from=0;
 				$price_to=100000;
 
-				
+				$sql="SELECT category_title,category_name FROM `category` WHERE category_id=$post->category_id limit 1";
+				$category=get_result($sql);
+
+				$data['breadcumb_category']=$category[0]->category_title;
+				$data['breadcumb_category_link']=$category[0]->category_name;
 				$category_id 				= 	$post->category_id;
 				$category_title				=	get_category_title($category_id);
 				$category_name				=	get_category_name($category_id);

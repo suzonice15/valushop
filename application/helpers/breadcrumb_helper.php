@@ -1,4 +1,7 @@
-<?php function get_breadcrumb($id=null, $page='product', $title=null)
+<?php
+
+
+function get_breadcrumb($id=null, $page='product', $title=null)
 {
 	$ci = get_instance();
 	$res_html = $sub_category_title = NULL;
@@ -120,3 +123,10 @@
 	
 	return '<ul class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">'.$home.$res_html.'</ul>';
 }
+
+function get_breadcrumb_data($id=null, $page='product', $title=null){
+
+
+}
+
+

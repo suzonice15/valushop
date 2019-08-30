@@ -118,11 +118,50 @@ class Home extends CI_Controller
 	}
 
 	public  function  checkout(){
+
+		if($this->input->post()) {
+
+
+			$row_data['order_total']		=	$this->input->post('order_total');
+			$row_data['created_by']		=	'customer';
+			$row_data['products']			=	serialize($this->input->post('products'));
+			$row_data['payment_type']		=	$this->input->post('checkout_type');
+			$row_data['order_area']		=	$this->input->post('order_area');
+			$row_data['shipping_charge']		=	$this->input->post('shipping_charge');
+
+
+			$row_data['customer_name']		=	$this->input->post('customer_name');
+			$row_data['customer_phone']		=	$this->input->post('customer_phone');
+			$row_data['customer_email']		=	$this->input->post('customer_email');
+			$row_data['customer_address']		=	$this->input->post('customer_address');
+
+
+			$row_data['shipment_time']		=	date("Y-m-d H:i:s");
+			$row_data['created_time']		=	date("Y-m-d H:i:s");
+			$row_data['modified_time']		=	date("Y-m-d H:i:s");
+			$order_id=$this->MainModel->returnInsertId('order_data',$row_data);
+			if($order_id) {
+				redirect('checkout/thank-you/?order_id=' . $order_id, 'refresh');
+			}
+
+		} else {
+			$data['page_name'] = 'home';
+			$data['home'] = $this->load->view('website/checkout', $data, true);
+			$this->load->view('website/home', $data);
+		}
+
+	}
+	public  function thank_you(){
 		$data['page_name'] = 'home';
-		$data['seo_title'] = get_option('home_seo_title');
-		$data['seo_keywords'] = get_option('home_seo_keywords');
-		$data['seo_content'] = get_option('home_seo_content');
-		$data['home'] = $this->load->view('website/checkout', $data, true);
+		$order_id=$_GET['order_id'];
+		$data['page_name'] = 'home';
+		$data['order'] = $this->MainModel->getSingleData('order_id', $order_id, 'order_data', '*');
+
+
+		$this->cart->destroy();
+
+
+		$data['home'] = $this->load->view('website/thank_you', $data, true);
 		$this->load->view('website/home', $data);
 
 	}

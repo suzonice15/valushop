@@ -150,8 +150,12 @@
 							<span>Courier</span> </a></li>
 					<li><a href="<?php echo base_url(); ?>expense-category-list"> <i class="fa fa-wrench"></i> <span>Expense Types</span>
 						</a></li>
+					<li><a href="<?php echo base_url(); ?>page-list"> <i class="fa fa-wrench"></i> <span>Pages</span>
+						</a></li>
 				</ul>
 			</li>
+
+
 
 			<li class="treeview ">
 				<a href="#"> <i class="fa fa-wrench"></i> <span>Setting Options</span> <span

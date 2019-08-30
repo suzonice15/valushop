@@ -44,12 +44,12 @@ $route['order-facebook'] = 'order/OrderController/facebook';
 
 /************************ category  ************************/
 
-$route['category-create'] = 'Category/categoryController/create';
-$route['category-save'] = 'category/categoryController/store';
-$route['category-edit/(:any)'] = 'category/categoryController/edit/$1';
-$route['category-delete/(:any)'] = 'category/categoryController/destroy/$1';
-$route['category-list'] = 'Category/categoryController/index';
-$route['category-update'] = 'category/categoryController/update';
+$route['category-create'] = 'Category/CategoryController/create';
+$route['category-save'] = 'category/CategoryController/store';
+$route['category-edit/(:any)'] = 'category/CategoryController/edit/$1';
+$route['category-delete/(:any)'] = 'category/CategoryController/destroy/$1';
+$route['category-list'] = 'category/CategoryController/index';
+$route['category-update'] = 'category/CategoryController/update';
 
 
 /************************ Courier  ************************/
@@ -132,6 +132,9 @@ $route['expense-category-list'] = 'expense/ExpenseController/index';
 $route['expense-category-update'] = 'expense/ExpenseController/update';
 
 
+	/****************************** Page ***************************************/
+
+	$route['page-list'] = 'page/PageController/index';
 
 
 
@@ -150,6 +153,7 @@ $route['setting-facebook'] = 'setting/SettingController/facebook';
 
 $route['default_controller'] = 'Home';
 $route['chechout'] = 'Home/checkout';
+$route['checkout/thank-you'] = 'Home/thank_you';
 
 
 

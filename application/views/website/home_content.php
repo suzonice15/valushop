@@ -10,12 +10,12 @@
 				$sliders = get_homeslider();
 
 				if(isset($sliders)) :
-				$i=0;
-				foreach ($sliders as $slider):?>
-				<li data-target="#demo" data-slide-to="<?php echo $i;?>" class="<?php if($i==0){ echo 'active'; }else { echo '';}  ?>"></li>
+					$i=0;
+					foreach ($sliders as $slider):?>
+						<li data-target="#demo" data-slide-to="<?php echo $i;?>" class="<?php if($i==0){ echo 'active'; }else { echo '';}  ?>"></li>
 
-				<?php $i++;
-						endforeach;endif;?>
+						<?php $i++;
+					endforeach;endif;?>
 
 			</ul>
 
@@ -83,25 +83,35 @@
 
 if(isset($home_cat_section)) {
 	foreach ($home_cat_section as $home_cat) {
-		$catproducts = get_category_products($home_cat, 6);
+		$catproducts = get_category_products($home_cat, 10);
 
 		$category_info = get_category_info($home_cat);
-		$category_title = $category_info->category_title;
-		$category_name = $category_info->category_name;
+		if(isset($category_info->category_title)){
+			$category_title = $category_info->category_title;
+
+		}
+		if(isset($category_info->category_name)){
+			$category_name = $category_info->category_name;
+
+
+		}
 
 
 		?>
-		<div class="container" style="margin-top: 23px;margin-bottom: -70px;">
+		<div class="container" style="margin-top: 23px;margin-bottom: -19px;">
 			<div class="row"
 				 style="border-bottom: 3px solid green;margin-bottom: 2px;margin-left: 1px;margin-right: 1px;">
 				<div class="col-md-6">
-					<a target="_blank" style="padding: 5px 45px;" class="bg-success  float-left"
-					   href="<?php echo $category_name ?>"><?php echo $category_title ?> </a>
+					<a target="_blank" style="padding: 5px 49px;
+margin-left: -15px;" class="bg-success text-decoration-none float-left text-light"
+					   href="<?php   echo $category_name;  ?>"><?php  echo $category_title; ?> </a>
 				</div>
+				<!--
 				<div class="col-md-6">
 					<a target="_blank" style="padding: 5px 45px;" class="bg-success float-right "
 					   href="<?php echo $category_name ?>">more </a>
 				</div>
+				-->
 			</div>
 			<div id="demos">
 
@@ -113,7 +123,7 @@ if(isset($home_cat_section)) {
 					<div class="owl-carousel owl-theme">
 
 						<?php
-
+$i=0;
 
 						foreach ($catproducts as $product) {
 
@@ -151,54 +161,81 @@ if(isset($home_cat_section)) {
 							$featured_image = get_product_meta($product->product_id, 'featured_image');
 							$featured_image = get_media_path($featured_image, 'thumb');
 
-
-							?>
-							<!---single product start----->
-
-
-							<div style="border:3px solid #ddd" class="item">
-								<a href="<?php echo base_url();
-								echo $product->product_name ?>" id="1148">
-									<img class="img-responsive " style="margin: 0 auto;padding:5px"
-										 src="<?= $featured_image ?>" title=""
-										 alt="">
-								</a>
+if($i<11) {
+	?>
+	<!---single product start----->
 
 
-								<div class="pro-desc">
-									<div class="text-center">
-										<?php
-										$_product_title = strip_tags($product->product_title);
-										?>
-
-										<a target="_blank" href="<?= $product_link ?>"><?= $_product_title ?></a>
-									</div>
-									<div class="pro-name">
-
-
-										<p class="text-center"> Product Code:<?php if (isset($sku)) {
-												echo $sku;
-											} ?></p>
-									</div>
-									<div class="clearfix">
-										<div class="text-left">
-											<?php
-											if ($discount == true) {
-												?>
-												<del>
-												<?= formatted_price($product_price) ?>
-												</del><?php
-											}
-											?>
-
-											<?= formatted_price($sell_price) ?>
-										</div>
-									</div>
-								</div>
-							</div>
+	<div style="border:3px solid #ddd;height:277px" class="item mh-100">
+		<a href="<?php echo base_url();
+		echo $product->product_name ?>" id="1148">
+			<img class="img-responsive " style="margin: 0 auto;padding:5px"
+				 src="<?= $featured_image ?>" title=""
+				 alt="">
+		</a>
+		<div class="text-center text-danger font-weight-bold">
+			<?php
+			if ($discount == true) {
+				?>
+				<del>
+				<?= formatted_price($product_price) ?>
+				</del><?php
+			}
+			?>
 
 
-						<?php }
+		</div>
+
+		<div class="text-center font-weight-bold text-success ">
+
+			<?= formatted_price($sell_price) ?>
+		</div>
+
+			<div class="text-center">
+				<?php
+				$_product_title = strip_tags($product->product_title);
+				?>
+
+				<a target="_blank"  class="text-decoration-none" href="<?= $product_link ?>"><?= $_product_title ?></a>
+			</div>
+
+
+
+	</div>
+
+
+	<?php
+
+}  else {
+	?>
+
+	<div style="border:3px solid #ddd" class="item">
+		<a href="<?php echo base_url();
+		echo $category_name; ?>" id="1148">
+			<img class="img-responsive " style="margin: 0 auto;padding:5px"
+				 src="<?php echo base_url() ?>images/arrow.png" title=""
+				 alt="">
+		</a>
+		<br>
+		<br>
+		<a href="<?php echo base_url();
+		echo $category_name; ?>" class="text-decoration-none text-center ml-5">
+
+			View All
+		</a>
+
+
+
+		<br>
+		<br>
+	</div>
+
+
+<?php
+}
+
+$i++;
+						}
 
 						}
 						?>

@@ -101,22 +101,22 @@ function formatted_price($price, $currency_left=true, $seperate_currecy=false)
 	{
 		if($currency_left==false)
 		{
-			$return = number_format($price, 2).'<em>৳  </em>';
+			$return = number_format($price, 2).'<strong>৳  </strong>';
 		}
 		else
 		{
-			$return = '<em>৳  </em>'.number_format($price, 2);
+			$return = '<strong>৳  </strong>'.number_format($price, 2);
 		}
 	}
 	else
 	{
 		if($currency_left==false)
 		{
-			$return = number_format($price, 2).' ৳ ';
+			$return = number_format($price, 2).'<strong>৳  </strong> ';
 		}
 		else
 		{
-			$return = '৳  '.number_format($price, 2);
+			$return = '<strong>৳  </strong>  '.number_format($price, 2);
 		}
 	}
 

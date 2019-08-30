@@ -52,9 +52,10 @@ if ($product_discount != 0) {
 
 <nav class="bg-dark">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item"><a href="#">Products</a></li>
-		<li class="breadcrumb-item active">Accessories</li>
+		<li class="breadcrumb-item text-decoration-none"><a href="<?php echo base_url() ?>">Home</a></li>
+		<li class="breadcrumb-item active"><a href="<?=$breadcumb_category_link?>">			<?=$breadcumb_category?>
+			</a></li>
+		<li class="breadcrumb-item active"><?= $prod_row->product_title ?></li>
 	</ol>
 </nav>
 
@@ -421,10 +422,10 @@ if ($product_discount != 0) {
 						 data-src="http://www.kalerhaat.com/uploads/PicsArt_08-07-10.02.40.jpg">
 				</a>
 
-				<div class="text-danger text-center">
+				<div class="text-danger text-center font-weight-bold">
 					<del><?= formatted_price($rel_product_price) ?></del>
 				</div>
-				<div class="text-success text-center"><span>৳<?= formatted_price($rel_sell_price) ?>
+				<div class="text-success text-center font-weight-bold "><span><?= formatted_price($rel_sell_price) ?>
 				</span>
 				</div>
 				<div class="text-center">

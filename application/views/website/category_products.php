@@ -1,8 +1,8 @@
 <nav class="bg-dark">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item"><a href="#">Products</a></li>
-		<li class="breadcrumb-item active">Accessories</li>
+		<li class="breadcrumb-item text-decoration-none"><a href="<?php echo base_url() ?>">Home</a></li>
+		<li class="breadcrumb-item active"><a href="<?=$breadcumb_category_link?>">			<?=$breadcumb_category?>
+			</a>
 	</ol>
 </nav>
 
@@ -90,13 +90,13 @@
 
 	<?php
 	if(count($products)>0){
-	$i = 1; foreach($products as $prod)
+	$i = 1; foreach($products as $product)
 	{
 
-	$product_link = base_url($prod->product_name);
+	$product_link = base_url($product->product_name);
 
 	$product_availability = NULL;
-	$stock_qty = intval(get_product_meta($prod->product_id, 'stock_qty'));
+	$stock_qty = intval(get_product_meta($product->product_id, 'stock_qty'));
 	if(!$stock_qty)
 	{
 		$product_availability = '<div class="availability">Out of Stock</div>';
@@ -104,13 +104,15 @@
 
 	$discount = false;
 
-	$product_price = $sell_price = floatval(get_product_meta($prod->product_id, 'sell_price'));
 
-	$product_discount = get_product_meta($prod->product_id, 'discount_price');
+		$product_price = $sell_price = $product->product_price;
 
-	$discount_type = get_product_meta($prod->product_id, 'discount_type');
+		$sku = $product->sku;
+		$product_discount = $product->discount_price;
+		$discount_type = $product->discount_type;
 
-	if($product_discount != 0)
+
+		if($product_discount != 0)
 	{
 		$discount = true;
 
@@ -127,7 +129,7 @@
 		}
 	}
 
-	$featured_image=get_product_meta($prod->product_id, 'featured_image');
+	$featured_image=get_product_meta($product->product_id, 'featured_image');
 	$featured_image=get_media_path($featured_image, 'thumb');
 
 	?>
@@ -135,17 +137,17 @@
 
 			<div class="col-md-2 border col-4">
 				<a  style="padding: 0px;height: 180px;overflow: hidden;" class="img-hover col-sm-12 padding-zero" href="<?=$product_link?>"   >
-					<img class="img-fluid pt-3 zoomEffect" style="margin: 0 auto;padding:5px" src="<?=$featured_image?>" alt="<?=$prod->product_title; ?>"/>
+					<img class="img-fluid pt-3 zoomEffect" style="margin: 0 auto;padding:5px" src="<?=$featured_image?>" alt="<?=$product->product_title; ?>"/>
 				</a>
-				<div class="text-danger text-center">
+				<div class="text-danger text-center  font-weight-bold">
 					<del><?=formatted_price($product_price)?></del>
 				</div>
-				<div class="text-success text-center"><span>৳<?=formatted_price($sell_price)?>
+				<div class="text-success  font-weight-bold text-center"><span><?=formatted_price($sell_price)?>
 				</span>
 				</div>
 				<div class="text-center">
-					<a class="text-decoration-none	" href="<?= base_url($prod->product_name) ?>">
-						<?=$prod->product_title?>
+					<a class="text-decoration-none	" href="<?= base_url($product->product_name) ?>">
+						<?=$product->product_title?>
 					</a>
 				</div>
 			</div>
