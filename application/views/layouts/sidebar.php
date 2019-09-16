@@ -67,6 +67,9 @@
 					<li><a href="<?php echo base_url(); ?>order-create">
 							<i class="fa fa-arrow-circle-o-right"></i> Add New </a>
 					</li>
+					<li><a href="<?php echo base_url(); ?>order-today-list">
+							<i class="fa fa-arrow-circle-o-right"></i> Today Orders </a>
+					</li>
 					<li><a href="<?php echo base_url(); ?>order-list">
 							<i class="fa fa-arrow-circle-o-right"></i> Orders </a>
 					</li>
@@ -94,6 +97,8 @@
 					<li><a href="<?php echo base_url(); ?>product-list">
 							<i class="fa fa-arrow-circle-o-right"></i> Products </a>
 					</li>
+
+					<!--
 					<li><a href="<?php echo base_url(); ?>product-limited">
 							<i class="fa fa-arrow-circle-o-right"></i> Limited Stock Products </a>
 					</li>
@@ -112,6 +117,8 @@
 					<li><a href="<?php echo base_url(); ?>product-color">
 							<i class="fa fa-arrow-circle-o-right"></i> Products Color </a>
 					</li>
+
+					-->
 					<li><a href="<?php echo base_url(); ?>category-list">
 							<i class="fa fa-arrow-circle-o-right"></i> Categories </a>
 					</li>
@@ -150,10 +157,11 @@
 							<span>Courier</span> </a></li>
 					<li><a href="<?php echo base_url(); ?>expense-category-list"> <i class="fa fa-wrench"></i> <span>Expense Types</span>
 						</a></li>
-					<li><a href="<?php echo base_url(); ?>page-list"> <i class="fa fa-wrench"></i> <span>Pages</span>
-						</a></li>
+
 				</ul>
 			</li>
+			<li><a href="<?php echo base_url(); ?>page-list"> <i class="fa fa-wrench"></i> <span>Pages</span>
+				</a></li>
 
 
 

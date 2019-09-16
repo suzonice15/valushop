@@ -44,3 +44,72 @@
 	margin-bottom: 15px;
 
 }
+
+
+
+.gelary_image_list li{ list-style: none;display: inline}
+.gelary_image_list li{ list-style: none;display: inline}
+
+/*           shoping bag                 */
+
+.shoping_bag_class .itemcount{
+
+	position: absolute;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	background: #f00;
+	border-radius: 50%;
+	line-height: 25px;
+	color: #fff;
+	top: 0;
+	right: 71px;
+}
+
+@media only screen and (max-width: 575px) {
+#mobile_menu_customization{
+
+	margin-top:-80px;
+}
+}
+
+/*# auto suggestion search query
+------------------------------------------------------------#*/
+
+header .search-area  {
+
+	position: absolute;
+	z-index: 999999999;
+	background-color: #fff;
+	width: 87%;
+	border: 1px solid #ddd;
+
+
+}
+header .search-area .dropdown-menu{max-height:365px;overflow:auto;width:100%;border-radius:0;margin:0;padding:0;box-shadow:0 0 0;position:absolute}
+header .search-area .dropdown-menu .search-item{border-bottom:1px solid #e1e4e7;}
+header .search-area .dropdown-menu .search-item:hover{background-color:#f1f5f7;}
+header .search-area .dropdown-menu .search-item a{display:inline-block;width:100%;padding:15px;white-space:normal;}
+header .search-area .dropdown-menu .search-item .image{float:left;width:60px;background:#fafafa;}
+header .search-area .dropdown-menu .search-item .image img{max-width:60px;}
+header .search-area .dropdown-menu .search-item .name{margin-left:70px;font-size:12px;line-height:14px;padding-bottom:5px;color:#777;}
+header .search-area .dropdown-menu .search-item:hover .name{color:#000;}
+header .search-area .dropdown-menu .search-item .price{font-size:14px;margin-left:70px;font-weight:600;color:#222;}
+header .search-area .dropdown-menu .search-item:hover .price{color:#0084c9;}
+header .search-area .dropdown-menu .search-item.remainder-count a{text-align:center;background:#f1f5f7;font-size:13px;color:#777;}
+header .search-area .dropdown-menu .search-item.remainder-count:hover a{background:#0084c9;color:#fff;}
+header .search-area .dropdown-menu .search-item .image{
+
+	float: left;
+	width: 60px;
+	background: #fafafa;
+}
+header .search-area .dropdown-menu .search-item .name{
+	 margin-left: 70px;
+	 font-size: 12px;
+	 line-height: 14px;
+	 padding-bottom: 5px;
+	 color: #777;
+ }
+
+

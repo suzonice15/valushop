@@ -50,6 +50,7 @@ foreach ($this->cart->contents() as $key => $val) {
 										<option value="outside_dhaka">Out of Dhaka</option>
 									</select>
 								</div>
+
 								<div class="form-group shipping-address-group">
 									<label for="shipping_address1">Delivery Address</label>
 
@@ -87,11 +88,11 @@ foreach ($this->cart->contents() as $key => $val) {
 									<table class="table table-striped table-bordered">
 										<tbody>
 										<tr>
-											<th class="name">প্রোডাক্ট</th>
-											<th class="name">পরিমান</th>
-											<th class="name">মূল্য</th>
-											<th class="name">মোট</th>
-											<th class="total text-right">মুছে ফেলুন</th>
+											<th width="30%" class="name">প্রোডাক্ট</th>
+											<th width="40%" class="name">পরিমান</th>
+											<th width="10%" class="name">মূল্য</th>
+											<th width="10%" class="name">মোট</th>
+											<th width="1%" class="total text-right">মুছে ফেলুন</th>
 										</tr>
 
 											<?php
@@ -108,19 +109,43 @@ foreach ($this->cart->contents() as $key => $val) {
 											</td>
 
 											<td>
-												<div class="quantity-action" data-rowid="<?= $items['rowid'] ?>">
-									<div class="qtyplus btn btn-danger  btn-sm" data-action_type="plus">+</div>
-													<input type="text" class=" col-5" id="quantity_value"
-														   value="<?= $items['qty'] ?>">
-									<div class="qtyminus btn btn-success  btn-sm " data-action_type="minus">-</div>
+												<div class="quantity-action">
+									<div class="qtyplus btn btn-danger  btn-sm col-md-2 col-12"
+										 onclick="IncrementFunction('quantity_value_<?= $items['id'] ?>','<?= $items['rowid'] ?>')">+</div>
+
+
+<div class="col-md-2">
+													 <span style="float: left;
+                                                font-size: 18px;
+                                                text-align: center;
+                                                color: gray;
+                                                cursor: pointer;
+                                                border: 1px solid #ddd;
+                                                height: 36px;
+                                                line-height: 30px;
+                                                padding: 2px 4px;width: 50px;"
+														   id="quantity_value_<?= $items['id'] ?>"><?= $items['qty'] ?></span>
+</div>
+
+
+									<div
+										onclick="DecrementFunction('quantity_value_<?= $items['id'] ?>','<?= $items['rowid'] ?>')"
+										class="qtyminus btn btn-success  btn-sm col-md-2 col-12"
+										data-action_type="minus">-</div>
 								</div>
 											</td>
 
 												<td>
-												 <?= $this->cart->format_number($items['price']) ?> টাকা
+													<span
+														id="per_poduct_price"> <?= $this->cart->format_number($items['price']) ?></span> টাকা
 											</td>
 											<td>
-												 <?= $this->cart->format_number($items['subtotal']) ?> টাকা
+												<span id="per_poduct_total_price_<?=$items['id']?>">
+												 <?= $this->cart->format_number($items['subtotal']) ?>
+													</span>
+													টাকা
+
+
 											</td>
 											<td>
                                         <a href="javascript:void(0)"
@@ -130,16 +155,26 @@ foreach ($this->cart->contents() as $key => $val) {
                                         </a>
                                     </td>
 
-																										<?= form_hidden('products[items][' . $items['id'] . '][featured_image]', $featured_image) ?>
 
-													<?= form_hidden('products[items][' . $items['id'] . '][qty]', $items['qty']) ?>
+														<input type="text"
+															   name="products[items][<?php echo $items['id'] ?>][featured_image]"
+															   value="<?php echo $featured_image ?>">
+					<input type="text" id="product_quantity" name="products[items][<?php echo $items['id'] ?>][qty]"
+						   value="<?php echo $items['qty'] ?>">
+					<input type="hidden" id="product_price" name="products[items][<?php echo $items['id'] ?>][price]"
+						   value="<?php echo $this->cart->format_number($items['price']) ?>">
+					<input type="text" id="total_product_price"
+						   name="products[items][<?php echo $items['id'] ?>][subtotal]"
+						   value="<?php echo $this->cart->format_number($items['subtotal']) ?>">
 
-													<?= form_hidden('products[items][' . $items['id'] . '][price]', $this->cart->format_number($items['price'])) ?>
-													<?= form_hidden('products[items][' . $items['id'] . '][subtotal]', $this->cart->format_number($items['subtotal'])) ?>
-													<?= form_hidden('products[items][' . $items['id'] . '][name]', get_product_title($items['id'])) ?>
 
-
-													<?= form_hidden('checkout_type', 'cash_on_delivery') ?>
+					<input type="hidden" name="products[items][<?php echo $items['id'] ?>][name]"
+						   value="<?php echo get_product_title($items['id']) ?>">
+					<input type="hidden" name="checkout_type" value="cash_on_delivery">
+													<input type="hidden" id="shipping_charge_in_dhaka"
+														   value="<?php echo get_option('shipping_charge_in_dhaka') ?>">
+	<input type="hidden" id="shipping_charge_out_of_dhaka" value="<?php echo get_option('shipping_charge_out_of_dhaka') ?>
+">
 
 
 										</tr>
@@ -158,6 +193,9 @@ foreach ($this->cart->contents() as $key => $val) {
 										$order_total = $this->cart->total() + $delivery_cost;
 										?>
 										<?= form_hidden('order_total', $this->cart->format_number($order_total)) ?>
+															<input type="text" name="order_total"
+																   value="<?php echo $this->cart->format_number($order_total) ?>">
+
 
 											<tr>
 												<td>
@@ -179,7 +217,7 @@ foreach ($this->cart->contents() as $key => $val) {
 															id="delivery_cost"><?= $delivery_cost ?></span></span>
 
 
-<input type="hidden" name="shipping_charge" value="50">
+<input type="text" id="shipping_charge" name="shipping_charge" value="<?= $delivery_cost ?>">
 												</td>
 											</tr>
 											<tr>
@@ -191,7 +229,7 @@ foreach ($this->cart->contents() as $key => $val) {
 															id="total_cost"><?= $this->cart->format_number($order_total) ?></span></span>
 
 
-<input type="hidden" name="order_total" value="<?= $order_total ?>">
+<input type="text" name="order_total" value="<?= $order_total ?>">
 
 
 <input type="hidden" name="checkout_type" value="cash_on_delivery">
@@ -223,3 +261,100 @@ foreach ($this->cart->contents() as $key => $val) {
 	</div>
 
 </div>
+
+<script>
+	$('#order_area').change(function () {
+		var order_area = $(this).children("option:selected").val();
+		if(order_area=='outside_dhaka'){
+		var charge=$('#shipping_charge_out_of_dhaka').val();
+
+		var total_cost=$('#subtotal_cost').text();
+		var total =parseFloat(charge)+parseFloat(total_cost);
+			$('#total_cost').text(total.toFixed(2));
+			$('input[name=order_total]').val(total);
+
+
+			$('#shipping_charge').val(charge);
+
+		} else {
+			var charge=$('#shipping_charge_in_dhaka').val();
+			$('#shipping_charge').val(charge);
+			var total_cost=$('#subtotal_cost').text();
+			var total =parseFloat(charge)+parseFloat(total_cost);
+			$('input[name=order_total]').val(total);
+
+			$('#total_cost').text(total.toFixed(2));
+
+
+
+		}
+
+	});
+
+</script>
+
+<script>
+
+
+	function IncrementFunction(Obj, rowid) {
+		var id_list = Obj.split("_");
+		var id=id_list[2];
+		alert(id)
+
+		var quantity = document.getElementById(Obj).innerHTML;
+		//var quantity = Number(x) + 1;
+		if (quantity) {
+			quantity++;
+			quantity = document.getElementById(Obj).innerHTML = quantity;
+		}
+
+		var row_id = rowid;
+		//var action_type=jQuery(this).attr('data-action_type');
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: '<?php echo base_url() ?>ajax/update_to_cart',
+			data: {rowid: rowid, quantity: quantity},
+			success: function (data) {
+				var total = data.total_amount;
+
+				$('input[name=order_total]').val(total);
+				$('#subtotal_cost').text(data.total_amount.toFixed(2));
+				$('#total_product_price').text(data.total_amount);
+				var unit = $('#per_poduct_price').text();
+				var total_product_price = parseFloat(unit * quantity);
+				$('#per_poduct_total_price_'+id+'').text(total_product_price.toFixed(2));
+				$('#total_product_price').val(total_product_price);
+				$('#product_price').val(total_product_price.toFixed(2));
+				$('#product_quantity').val(quantity);
+			}
+
+
+		});
+
+
+	}
+
+	function DecrementFunction(Obj, rowid) {
+		var x = document.getElementById(Obj).innerHTML;
+		var quantity = Number(x) - 1;
+		var row_id = rowid;
+
+
+		if (quantity >= 1) {
+			document.getElementById(Obj).innerHTML = quantity;
+
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: '<?php echo base_url() ?>ajax/update_to_cart',
+				data: {rowid: rowid, quantity: quantity},
+				success: function (data) {
+					$('#subtotal_cost').text(data.total_amount);
+				}
+			});
+
+
+		}
+	}
+</script>

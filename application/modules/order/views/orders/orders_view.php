@@ -10,14 +10,14 @@
 			<div class="col-xs-12">
 
 				<?php
-				$billing_name 		= get_order_meta($order->order_id, 'billing_name');
-				$billing_phone 		= get_order_meta($order->order_id, 'billing_phone');
-				$billing_email 		= get_order_meta($order->order_id, 'billing_email');
-				$billing_address1 	= get_order_meta($order->order_id, 'billing_address1');
-				$shipping_address1 	= get_order_meta($order->order_id, 'shipping_address1');
-				$delivery_cost 		= get_order_meta($order->order_id, 'shipping_charge');
-				$discount 			= get_order_meta($order->order_id, 'discount');
-				$service_cost 		= get_order_meta($order->order_id, 'service_cost');
+				$billing_name 		= $order->customer_name;
+				$billing_phone 		= $order->customer_phone;
+				$billing_email 		= $order->customer_email;
+				$billing_address1 	= $order->customer_address;
+
+				$delivery_cost 		= $order->shipping_charge;
+				$discount 			= $order->order_id;
+				$service_cost 		= $order->order_id;
 				?>
 
 				<form method="POST" id="order_update" action="<?=base_url()?>order-update" enctype="multipart/form-data">
@@ -79,34 +79,7 @@
 								</div>
 							</div>
 
-							<div class="box box-primary">
-								<div class="box-header">
-									<h3 class="box-title">Delivery Info</h3>
-									<a href="javascript:void(0)" class="pull-right change_order_data">Change</a>
-								</div>
-								<div class="box-body">
-									<table class="table table-striped table-bordered table-hover">
-										<tbody>
-										<tr>
-											<td>
-												<p><b>Address:</b><br/><?=$shipping_address1?></p>
-											</td>
-										</tr>
-										</tbody>
-									</table>
 
-									<span class="order_data" hidden>
-										<hr class="break break10">
-										<?php
-										$shipping_address1 = set_value('shipping_address1') ? set_value('shipping_address1') : $shipping_address1;
-										?>
-										<div class="form-group">
-											<label for="shipping_address1">Delivery Address<span class="required">*</span></label>
-											<textarea class="form-control " rows="2" name="shipping_address1" id="shipping_address1"><?=$shipping_address1?></textarea>
-										</div>
-									</span>
-								</div>
-							</div>
 
 							<div class="box box-primary">
 								<div class="box-header">
@@ -129,17 +102,7 @@
 											$proSizeList=0;
 											$product_items = unserialize($order->products);
 											$product_items['items'];
-											foreach ($product_items['items'] as $key=>$item){
 
-												$this->db->select('product_of_size');
-												$this->db->where('product_id', $key);
-												$productSize = $this->db->get('product')->result();
-												foreach ($productSize as $product) {
-													$proSizeList = $product->product_of_size;
-												}
-												$productSize_OF = explode(',', $proSizeList);
-												//var_dump($productSize_OF);exit();
-											}
 
 $html=null;
 											if(is_array($product_items['items']))
@@ -148,34 +111,9 @@ $html=null;
 												{
 													$featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
 
-													$product_ids[] = $product_id;	if(empty($item['Size'])){
-													$item['Size']=12222;
-												}
-												if(empty($item['Color'])){
-													$item['Color']='abc';
-												}	if(empty($item['Size'])){
-													$item['Size']=12222;
-												}
-													if(empty($item['Color'])){
-														$item['Color']='abc';
-													}
+													$product_ids[] = $product_id;
 
-												$this->db->select('product_of_size');
-												$this->db->where('product_id', $product_id);
-												$productSize = $this->db->get('product')->result();
-												foreach ($productSize as $product) {
-													$proSizeList = $product->product_of_size;
-												}
-												$productSize_OF = explode(',', $proSizeList);
-												//var_dump($productSize_OF);exit();
-													$this->db->select('product_color');
-													$this->db->where('product_id', $product_id);
-													$productColor = $this->db->get('product')->result();
-													foreach ($productColor as $product_co) {
 
-														$proColorlist = $product_co->product_color;
-													}
-													$productColor = explode(',', $proColorlist);
 
 
 
@@ -187,26 +125,11 @@ $html=null;
 														</td>
 														
 														<td>
-								<select name="products[items][' . $product_id. '][Size]"  id="productSize" class="form-control item_Size" >';
-				foreach ($productSize_OF as $key => $product_size_id_of):
-					if($item['Size'] ==$product_size_id_of):
-					$html .= '<option   selected value="' . $product_size_id_of . '">' . $product_size_id_of . '</option>';
-else :
-	$html .= '<option    value="' . $product_size_id_of . '">' . $product_size_id_of . '</option>';
-endif;
-				endforeach;
+								';
 
-				$html .= '</select> 	</td>';
-													$html .= '<td>
-								<select name="products[items][' . $product_id . '][Color]"  id="productSize" class="form-control item_color" >';
-													foreach ($productColor as $key => $productCol):
-														if($item['Color']==$productCol):
-														$html .= '<option  selected value="' . $productCol . '">' . $productCol . '</option>';
-														else :
-															$html .= '<option   value="' . $productCol . '">' . $productCol . '</option>';
-														endif;
-													endforeach;
-				$html.='</select></td><td class="text-center">
+				$html .= '</td>';
+
+				$html.='</td><td class="text-center">
 															<input type="number" name="products[items]['.$product_id.'][qty]" class="form-control item_qty" value="'.(isset($item['qty']) ? $item['qty'] : null).'" data-item-id="'.$product_id.'" style="width:60px;">
 														</td>
 														<td class="text-center">TK '.(isset($item['price']) ? $item['price'] : null).'</td>
@@ -282,21 +205,7 @@ endif;
 													</td>
 												</tr>
 
-												<?php
-												$promotion_code = get_order_meta($order->order_id, 'promotion_code');
-												if($promotion_code)
-												{
-													?><tr>
-													<td>
-															<span class="extra bold totalamout">Promotion Code</span>
-														</td>
-														<td class="text-right">
-															<span class="bold"><?=$promotion_code?></span>
-															<?=form_hidden('promotion_code', $promotion_code)?>
-														</td>
-													</tr><?php
-												}
-												?>
+
 											</tbody>
 										</table>
 									</span>
@@ -326,7 +235,7 @@ endif;
 								</div>
 								<div class="box-body">
 									<?php
-									$order_area = get_order_meta($order->order_id, 'order_area');
+									$order_area =$order->order_area;
 									if(!$order_area)
 									{
 										$order_area = 'inside_dhaka';
@@ -374,14 +283,7 @@ endif;
 											</select>
 										</div>
 									</div>
-									<div class="form-group ">
-										<label for="courier_phone">Courier Phone</label>
-										<?=form_input(array('name'=>'courier_phone', 'class'=>'form-control', 'id'=>'courier_phone', 'value'=>set_value('courier_phone') ? set_value('courier_phone') : get_order_meta($order->order_id, 'courier_phone')))?>
-									</div>
-									<div class="form-group <?=form_error('courier_email') ? 'has-error' : ''?>">
-										<label for="courier_email">Courier Email</label>
-										<?=form_input(array('name'=>'courier_email', 'class'=>'form-control', 'id'=>'courier_email', 'value'=>set_value('courier_email') ? set_value('courier_email') : get_order_meta($order->order_id, 'courier_email')))?>
-									</div>
+
 									<div class="form-group">
 										<label>Shipping Date</label>
 										<div class="input-group date">

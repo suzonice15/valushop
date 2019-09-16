@@ -27,6 +27,7 @@ $route['promotion-update'] = 'management/promotionsController/update';
 /****************************** order ***************************************/
 
 $route['order-list'] = 'order/OrderController/index';
+$route['order-today-list'] = 'order/OrderController/orderToday';
 $route['order-create'] = 'order/OrderController/create';
 $route['order-view/(:any)'] = 'order/OrderController/order_view/$1';
 $route['order-delete/(:any)'] = 'order/OrderController/delete/$1';
@@ -132,9 +133,6 @@ $route['expense-category-list'] = 'expense/ExpenseController/index';
 $route['expense-category-update'] = 'expense/ExpenseController/update';
 
 
-	/****************************** Page ***************************************/
-
-	$route['page-list'] = 'page/PageController/index';
 
 
 
@@ -149,15 +147,29 @@ $route['setting-social'] = 'setting/SettingController/social';
 $route['setting-popup'] = 'setting/SettingController/popup';
 $route['setting-facebook'] = 'setting/SettingController/facebook';
 
+/****************************** Page ***************************************/
+
+$route['page-list'] = 'page/PageController/index';
+$route['page-create'] = 'page/PageController/create';
+$route['page-save'] = 'page/PageController/store';
+$route['page-edit/(:any)'] = 'page/PageController/edit/$1';
+$route['page-update'] = 'page/PageController/update';
+$route['page-delete/(:any)'] = 'page/PageController/destroy/$1';
+
+
+
 /********************************* website          *********************************/
 
 $route['default_controller'] = 'Home';
 $route['chechout'] = 'Home/checkout';
 $route['checkout/thank-you'] = 'Home/thank_you';
+$route['category/(:any)'] = 'Home/category/$1';
+$route['product/(:any)'] = 'Home/product/$1';
 
 
 
 
 
-$route['404_override'] = 'Custom404';
+
+//$route['404_override'] = 'Custom404';
 $route['translate_uri_dashes'] = FALSE;

@@ -5,7 +5,7 @@
 				<div class="adsbox">
 					<?php
 					$adds = get_adds();
-					if(count($adds)>0)
+					if($adds)
 					{
 						$side_html='<ul>';
 						
@@ -13,7 +13,7 @@
 						{
 							$side_html.='<li>
 								<a href="'.$add->adds_link.'">
-									<img src="'.get_media_path($add->media_id).'">
+									<img  class="img-fluid" src="'.get_media_path($add->media_id).'">
 								</a>
 							</li>';
 						}
@@ -28,7 +28,7 @@
 			<div class="col-sm-9">
 				<div class="subheader">
 					<ul class="breadcrumb">
-						<li><a href="<?=base_url()?>">Home</a></li>
+						<li><a href="<?=base_url()?>">Home</a>/</li>
 						<li class="active"><?=$page_title?></li>
 					</ul>
 					
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<article class="txt">
-					<?=$post->post_content?>
+					<?=$page_content?>
 				</article>
 			</div>
 		</div>

@@ -9,34 +9,17 @@
         <div class="box-body">
 
 
-		<form action="<?php echo base_url()?>category-save"  method="post" enctype="multipart/form-data" >
-		<?php $this->load->view('category_form');?>
+		<form action="<?php echo base_url()?>page-save"  method="post" enctype="multipart/form-data" >
+		<?php $this->load->view('page_form');?>
 
 			<div class="box-footer">
 				<input type="submit" class="btn btn-success pull-right" value="Save"/>
-				<a class="btn btn-danger pull-left " href="<?php echo base_url();?>category-list">Cancel</a>
+				<a class="btn btn-danger pull-left " href="<?php echo base_url();?>page-list">Cancel</a>
 
 			</div>
 		</form>
         </div>
         </div>
-
-<script>
-
-	$(document).ready(function () {
-
-		$("#category_title").on( 'input', function () {
-			var text=$("#category_title").val();
-			var word= text.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
-			$("#category_name").val(word);
-
-		})
-
-	});
-
-
-
-</script>
 
 
 

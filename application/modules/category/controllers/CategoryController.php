@@ -16,7 +16,6 @@ class CategoryController extends MX_Controller {
 		$data['main'] = "Category";
 		$data['active'] = "Categories" ;
 		$data['categories'] = $this->MainModel->getAllData('parent_id=0', 'category', '*', 'category_id ASC');
-
 		$data['pageContent'] = $this->load->view('category/category/category_index', $data, true);
 		$this->load->view('layouts/main', $data);
 	}

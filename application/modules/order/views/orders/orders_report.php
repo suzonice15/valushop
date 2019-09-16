@@ -75,7 +75,7 @@
 								$staff_row = TRUE;
 
 								// specific staff orders
-								$sql = "SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order` WHERE `created_by`='office-staff' AND `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
+								$sql = "SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order_data` WHERE `created_by`='office-staff' AND `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
 								$specific_staff_orders_result = get_result($sql);
 								foreach($specific_staff_orders_result as $specific_staff_order_row);
 								$total_specific_staff_order_qty = $specific_staff_order_row->no_of_order;
@@ -85,7 +85,7 @@
 						}
 
 						// total orders
-						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' ORDER BY `order_id` DESC";
+						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order_data` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' ORDER BY `order_id` DESC";
 						$orders_result = get_result($sql);
 						foreach($orders_result as $order_row);
 						$total_order_qty = $order_row->no_of_order;
@@ -93,7 +93,7 @@
 						$total_order_price = number_format($total_order_price ? $total_order_price : 0);
 
 						// total online orders
-						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' AND `created_by`='customer' ORDER BY `order_id` DESC";
+						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order_data` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' AND `created_by`='customer' ORDER BY `order_id` DESC";
 						$online_orders_result = get_result($sql);
 						foreach($online_orders_result as $online_order_row);
 						$total_online_order_qty = $online_order_row->no_of_order;
@@ -101,7 +101,7 @@
 						$total_online_order_price = number_format($total_online_order_price ? $total_online_order_price : 0);
 
 						// total staff orders
-						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' AND `created_by`='office-staff' ORDER BY `order_id` DESC";
+						$sql="SELECT COUNT(order_id) as no_of_order, SUM(order_total) as order_total FROM `order_data` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' AND `created_by`='office-staff' ORDER BY `order_id` DESC";
 						$staff_orders_result = get_result($sql);
 						foreach($staff_orders_result as $staff_order_row);
 						$total_staff_order_qty = $staff_order_row->no_of_order;
@@ -111,11 +111,11 @@
 						// orders
 						if($user_type=='admin' || $user_type=='super-admin')
 						{
-							$sql = "SELECT * FROM `order` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
+							$sql = "SELECT * FROM `order_data` WHERE `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
 						}
 						else
 						{
-							$sql = "SELECT * FROM `order` WHERE `created_by`='office-staff' AND `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
+							$sql = "SELECT * FROM `order_data` WHERE `created_by`='office-staff' AND `created_time` >= '$date_from' AND `created_time` <= '$date_to' $staff_sql ORDER BY order_id DESC";
 						}
 						
 						$orders = get_result($sql);
@@ -134,7 +134,7 @@
 														<label>Office Staff</label>
 														<?php
 														$office_staffs = users_by_role('office-staff');
-														//echo "<pre>"; print_r($office_staffs); echo "</pre>";
+														echo "<pre>"; print_r($office_staffs); echo "</pre>";
 
 														$staff_option[] = '--- choose ---';
 

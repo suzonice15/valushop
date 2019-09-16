@@ -246,7 +246,7 @@
 <script src="<?php echo base_url();?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
  <!-- Select2 -->
  <script src="<?php echo base_url();?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
- <script src="<?php echo base_url();?>assets/js/customjs.js"></script>
+ <script src="<?php echo base_url();?>assets/js/custom_js.js"></script>
  <script src="<?php echo base_url();?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
  <script src="#"></script>
  <script>

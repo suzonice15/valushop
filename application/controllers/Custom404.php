@@ -15,7 +15,7 @@ class Custom404 extends MX_Controller
 
 		$uri_string = explode("/", uri_string());
 		$uri_string_end = end($uri_string);
-		//echo $uri_string_end;
+
 		if(is_numeric($uri_string_end))
 		{
 			$page = $uri_string_end;
@@ -29,6 +29,7 @@ class Custom404 extends MX_Controller
 			$page = 1;
 			$post = get_uri_not_found_data(end($uri_string));
 
+//print_r($post);exit();
 
 		}
 
@@ -72,19 +73,9 @@ WHERE product_id=$post->product_id limit 1";
 				$category_name				=	get_category_name($category_id);
 				$catinfo					=	get_category_info($category_id);
 
-				//$data['products']			=	$this->CategoryModel->archive_product($category_id, 32, $page, $sortby, $price_from, $price_to);
 				$data['products']			=	$this->CategoryModel->archive_product($category_id);
 				$data['total_rows']			=	$this->CategoryModel->total_rows($category_id);
-			//	echo '<pre>';
-			//	print_r($data['products']);exit();
-/*
-				if(sizeof($data['products'])==0)
-				{
-					$sortby = 'default';
-					$data['products']		=	$this->CategoryModel->archive_product($category_id, 32, $page,$sortby, $price_from, $price_to);
-				}
 
--*/
 
 				$data['page_title']			=	ucwords(str_replace("-", " ", $cat));
 				$data['page_name'] 			= 	'archive';
@@ -108,18 +99,16 @@ WHERE product_id=$post->product_id limit 1";
 			{
 
 
-				$data['page_title']		=	$post->post_title;
-				$data['page_name']		=	$post->post_title;
-				$data['seo_title']		=	get_post_meta($post->post_id, 'seo_title');
-				$data['seo_keywords']	=	get_post_meta($post->post_id, 'seo_keywords');
-				$data['seo_content']	=	get_post_meta($post->post_id, 'seo_content');
+				$data['page_title']		=	$post->page_name;
+				$data['page_name']		=	$post->page_link;
+				$data['page_content']	=$post->page_content;
 
-				$template = get_post_meta($post->post_id, 'template');
+				$template = $post->page_template;
 				$template = $template == 'default' ? 'page' : $template;
 
-				$this->load->view('header', $data);
+				$this->load->view('website/header', $data);
 				$this->load->view($template, $data);
-				$this->load->view('footer', $data);
+				$this->load->view('website/footer', $data);
 			}
 		}
 		else

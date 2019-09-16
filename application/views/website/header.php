@@ -100,40 +100,48 @@ foreach ($this->cart->contents() as $key=>$val)
 	<link rel="image_src" href="<?=$og_image?>"/>
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/fontend/css/style.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/fontend/css/custom.css">
-
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/fontend/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/fontend/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/fontend/css/bootstrap.min.css">
+	<script src="<?php echo base_url() ?>assets/fontend/js/jquery.min.js"></script>
 
-
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
 <body>
+<header>
 
-<div class="container-fluid" style="background-color: #30532e52;color: #fff;">
-
-	<div class="row">
-		<div class="ml-5 col-md-4">
-			 Welcome to Kalerhaat.
+	<nav  style="background-color: #BDD439" class="navbar navbar-expand-md   navbar-dark">
+		<div class="col-md-6 col-3">
+			<a class="navbar-brand" href="#"> Welcome to Kalerhaat.</a>
 		</div>
-		<div class="text-right col-md-6">
+		<div class="col-md-6 col-3">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar_top">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar_top">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a  class="nav-link" style="color:white" href="#home"><i class="fa fa-home"></i>Home</a>
+					</li>
+					<li class="nav-item">
+						<a  class="nav-link" style="color:white" href="#news"><i class="fa fa-envelope"></i>Contact</a>
 
-			<div class="pill-nav">
-				<a style="color:white" href="#home"><i class="fa fa-home"></i>Home</a>
-				<a style="color:white" href="#news"><i class="fa fa-envelope"></i>Contact</a>
-				<a style="color:white" href="#contact"><i class="fa fa-search"></i>Track Order</a>
-				<a style="color:white" href="#about"><i class="fa fa-shopping-cart"></i>Checkout</a>
+					</li>
+
+					<li class="nav-item">
+						<a  class="nav-link" style="color:white" href="#contact"><i class="fa fa-search"></i>Track Order</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" style="color:white" href="#about"><i class="fa fa-shopping-cart"></i>Checkout</a>
+
+					</li>
+				</ul>
 			</div>
 		</div>
+	</nav>
 
-	</div>
-</div>
-
-
-<div class="container-fluid" style="padding: 26px 47px;background-color: #7bd771;">
+<div class="container-fluid" style="padding: 26px 47px;background-color: #fff;">
 
 	<div class="row">
 		<div class="col-md-3">
@@ -141,21 +149,38 @@ foreach ($this->cart->contents() as $key=>$val)
 					src="<?php echo get_option('logo');?>"
 					alt="dhaka" title="dhaka"></a>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-5 col-12">
 			<div class="input-group">
-				<input class="form-control py-2" type="search" value="search" id="example-search-input">
+				<input class="form-control py-2" oninput="SearchProduct_byUser(this.value)" type="search" pla="search" id="example-search-input">
 				<span class="input-group-append">
         <button class="btn btn-outline-secondary" type="button">
             <i class="fa fa-search"></i>
         </button>
       </span>
 			</div>
+<!-- search item -->
+			<div class="search-area">
+
+				<ul class="dropdgown-menu">
+
+				</ul>
+
+			</div>
+
 		</div>
 
-		<div class="col-md-5">
+		<!-- end item -->
+
+
+
+
+
+		<div  id="mobile_menu_customization" class="col-md-4 ">
 			<div class="float-right shoping_bag_class" >
-				<img src="<?php echo base_url() ?>assets/fontend/images.png">
+
+				<img src="<?php echo base_url() ?>images/bag.png">
 				<a href="<?php echo base_url()?>chechout"   id="shoping_bag" class="text-danger font-weight-bold mr-5">
+
 					<?php
 					$cart_items=$cart_total=0;
 					/*echo '<pre>'; print_r($this->cart->contents()); echo '</pre>';*/
@@ -166,9 +191,21 @@ foreach ($this->cart->contents() as $key=>$val)
 
 						$cart_items += $val['qty'];
 						$cart_total += $val['subtotal'];
-					}
-					echo $cart_items;
+
 					?>
+
+						<div class="itemcount item_1">
+						<span class="itemno">
+<?php   if($cart_items >0 )  { echo  $cart_items; } ?>
+							</span>
+						</div>
+
+					<?php
+
+					}
+					?>
+
+
 
 				</a>
 			</div>
@@ -186,37 +223,47 @@ foreach ($this->cart->contents() as $key=>$val)
 	</div>
 </div>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+<nav  style="position:relative;background-color: #F86F3F" class="navbar navbar-expand-sm   navbar-dark sticky-top">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<nav class="collapse navbar-collapse" id="collapsibleNavbar">
 
-	<ul class="navbar-nav">
-<?php
-$html = null;
-$result = get_result("SELECT * FROM `category` ORDER BY rank_order DESC");
-if (isset($result)) {
-	foreach ($result as $row) {
-		$category[$row->parent_id][] = $row;
-	}
+		<div class="navbar-nav" >
 
-	foreach ($result as $row) {
-		if ($row->parent_id == 0) {
+			<?php
+			$html = null;
+			$result = get_result("SELECT * FROM `category` ORDER BY rank_order DESC");
+			if (isset($result)) {
+				foreach ($result as $row) {
+					$category[$row->parent_id][] = $row;
+				}
+
+				foreach ($result as $row) {
+					if ($row->parent_id == 0) {
+
+						?>
 
 
-			$html .= '<li class="nav-item">
-			<a class="nav-link" href="' . base_url($row->category_name) . '">
+				<li class="nav-item">
+			<a style="color:white" class="nav-link" href="<?php echo base_url() ?>category/<?php echo $row->category_name?> ">
 
-				' . $row->category_title . '
+				<?php echo  $row->category_title ?>
 			</a>
 
 
-		</li>';
-		}
-	}
-	$html .= '</ul>
+		</li>
 
-		</nav>';
+						<?php
+					}
+				}
+				?>
+				</ul>
+			<?php
+			}
+			?>
 
-	echo $html;
-}
-?>
 
-
+		</div>
+	</nav>
+		</header>

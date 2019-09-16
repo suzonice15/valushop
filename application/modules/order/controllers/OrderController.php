@@ -10,6 +10,9 @@ class OrderController extends CI_Controller
 		$this->load->library('cart');
 		$this->load->model('OrderModel', 'order');
 		$this->load->model('MainModel');
+
+		$this->load->library('Ajax_pagination');
+		$this->perPage = 5;
 	}
 
 	public function index()
@@ -18,12 +21,11 @@ class OrderController extends CI_Controller
 
 		$data['main'] = "Orders ";
 		$data['active'] = "View Order ";
-
-
-
-			$data['orders'] = $this->MainModel->getAllData("order_status='new'", 'order', '*', 'order_id desc');
+			$data['orders'] = $this->MainModel->getAllData("order_status='new'", 'order_data', '*', 'order_id desc');
 			$data['pageContent'] = $this->load->view('order/orders/orders_index', $data, true);
 			$this->load->view('layouts/main', $data);
+
+
 
 	}
 	function create()
@@ -168,7 +170,7 @@ public  function  update(){
 
 			$order_number 				= $data['row_id'];
 			$order_status 				= $this->input->post('order_status');
-			$order 						=$this->MainModel->getSingleData('order_id', $order_number, 'order', '*');
+			$order 						=$this->MainModel->getSingleData('order_id', $order_number, 'order_data', '*');
 
 			$row_data					= array();
 			$row_data['modified_time']	= date("Y-m-d H:i:s");
@@ -431,7 +433,7 @@ public  function  update(){
 	{
 		$data['main']   = "Orders ";
 		$data['active'] = "View Single Order ";
-		$data['order'] 	= 	$this->MainModel->getSingleData('order_id',$order_id,'order','*');
+		$data['order'] 	= 	$this->MainModel->getSingleData('order_id',$order_id,'order_data','*');
 		$data['pageContent']= $this->load->view('order/orders/orders_view', $data, true);
 		$this->load->view('layouts/main', $data);
 
@@ -1198,11 +1200,11 @@ $html .='<option value="'.$courier->courier_name.'">'.$courier->courier_name.'</
 		$data['date_from']=date('Y-m-d',strtotime($this->input->post('date_from')));
 		$date_from=date('Y-m-d',strtotime($this->input->post('date_from')));
 		if(strlen($optionBy)>0){
-$query="SELECT * FROM `order`  
+$query="SELECT * FROM `order_data`  
 WHERE `staff_id`=$optionBy and `order_status`='$option' and `created_time` BETWEEN '$date_from' and '$date_to'
 order by `order_id` DESC";
 		}else {
-			$query="SELECT * FROM `order`  
+			$query="SELECT * FROM `order_data`  
 WHERE  `order_status`='$option' and `created_time` BETWEEN '$date_from' and '$date_to'
 order by `order_id` DESC";
 		}
@@ -1236,4 +1238,91 @@ order by `order_id` DESC";
 		}
 
 	}
+
+
+	public  function orderToday(){
+
+		$data = array();
+
+		//total rows count
+		$totalRec = count($this->order->orderRows());
+		if($this->input->post('order_status')){
+			$order_status=$this->input->post('order_status');
+
+		}
+		//$order_status='new';
+
+
+		//pagination configuration
+		$config['target']      = '#postList';
+		$config['base_url']    = base_url().'order/OrderController/ajaxPaginationData';
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $this->perPage;
+		$config['link_func']   = 'searchFilter';
+		$this->ajax_pagination->initialize($config);
+
+		//get the posts data
+		$data['orders'] = $this->order->orderRows(array('limit'=>$this->perPage));
+
+
+		$data['main'] = "Orders ";
+		$data['active'] = "View Order ";
+		$data['pageContent'] = $this->load->view('order/orders/orders_today', $data, true);
+		$this->load->view('layouts/main', $data);
+
+
+
+
+	}
+
+	function ajaxPaginationData(){
+		$conditions = array();
+
+		//calc offset number
+		$page = $this->input->post('page');
+		if(!$page){
+			$offset = 0;
+		}else{
+			$offset = $page;
+		}
+
+		//set conditions for search
+		$keywords = $this->input->post('keywords');
+		$sortBy = $this->input->post('sortBy');
+		if(!empty($keywords)){
+			$conditions['search']['keywords'] = $keywords;
+		}
+		if(!empty($sortBy)){
+			$conditions['search']['sortBy'] = $sortBy;
+		}
+		if($this->input->post('order_status')){
+			//$order_status=$this->input->post('order_status');
+			//$conditions['search']['order_status'] = $this->input->post('order_status');
+
+		}
+		//$order_status='new';
+
+
+		//total rows count
+		$totalRec = count($this->order->orderRows($conditions));
+
+		//pagination configuration
+		$config['target']      = '#postList';
+		$config['base_url']    = base_url().'order/OrderController/ajaxPaginationData';
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $this->perPage;
+		$config['link_func']   = 'searchFilter';
+		$this->ajax_pagination->initialize($config);
+
+		//set start and limit
+		$conditions['start'] = $offset;
+		$conditions['limit'] = $this->perPage;
+
+		//get posts data
+		$data['orders'] = $this->order->orderRows($conditions);
+
+		//load the view
+		$this->load->view('order/orders/order_today_ajax', $data, false);
+
+}
 }

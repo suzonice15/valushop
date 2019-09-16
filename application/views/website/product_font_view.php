@@ -47,13 +47,30 @@ if ($product_discount != 0) {
 	}
 }
 
-?>
 
+?>
+<style>
+	.large_picture{
+		width:300px;
+		height:300px;
+	}
+	.picbig{
+		position: absolute;
+		width:0px;
+		-webkit-transition:width 0.3s linear 0s;
+		transition:width 0.3s linear 0s;
+		z-index:10;
+	}
+	.large_picture:hover + .picbig{
+		width:500px;
+		height:350px;
+	}
+</style>
 
 <nav class="bg-dark">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item text-decoration-none"><a href="<?php echo base_url() ?>">Home</a></li>
-		<li class="breadcrumb-item active"><a href="<?=$breadcumb_category_link?>">			<?=$breadcumb_category?>
+		<li class="breadcrumb-item active"><a href="<?php echo base_url()?><?=$breadcumb_category_link?>">			<?=$breadcumb_category?>
 			</a></li>
 		<li class="breadcrumb-item active"><?= $prod_row->product_title ?></li>
 	</ol>
@@ -64,9 +81,33 @@ if ($product_discount != 0) {
 	<div class="row">
 		<div class="col-md-4 col-12">
 
-			<img class="img-thumbnail  col-12  " src="<?= $featured_image ?>"/>
+			<img    id="ordinal_galary_image" class="img-fluid  large_picture col-12  " src="<?= $featured_image ?>"/>
+			<img class="picbig " src="<?= $featured_image ?>" alt="heart">
 
 
+			<ul class="gelary_image_list mt-2" >
+				<li><img  class="ordinal_galary_image" width="50"  height="50" src="<?=$featured_image?>"/></li>
+<?php
+				$gallery_image_meta = get_product_meta($prod_row->product_id, 'gallery_image');
+$gallery_image=explode(",",$gallery_image_meta);
+$gallery_image=explode(",", $gallery_image_meta);
+
+				if(count($gallery_image)>0)
+				{
+				foreach($gallery_image as $gallery_id)
+				{
+				$gallery=get_media_path($gallery_id);
+
+				?>
+				<li><img  class="ordinal_galary_image" width="50"  height="50" src="<?=$gallery?>"/></li>
+
+					<?php
+				}
+				}
+?>
+
+
+			</ul>
 		</div>
 		<div class="col-md-5 col-12">
 
@@ -92,7 +133,7 @@ if ($product_discount != 0) {
 				<span class="input-group-btn">
 
 											পরিমান:
-                                        <button type="button" class="quantity-left-minus btn btn-danger btn-number"
+                                        <button type="button"  style="height: 39px;" class="quantity-left-minus btn btn-danger btn-number"
 												data-type="minus" data-field="">
                                          <i class="fa fa-fw fa-minus"></i>
                                         </button>
@@ -100,7 +141,7 @@ if ($product_discount != 0) {
 					<input type="text" id="quantity" name="quantity" class="form-control input-number" value="1"
 						   min="1" max="100">
 					<span class="input-group-btn">
-                                        <button type="button" class="quantity-right-plus btn btn-success btn-number"
+                                        <button type="button" style="height: 39px;"  class="quantity-right-plus btn btn-success btn-number"
 												data-type="plus" data-field="">
                                           <i class="fa fa-fw fa-plus"></i>
                                         </button>
@@ -208,9 +249,11 @@ if ($product_discount != 0) {
 
 						foreach ($featured_products as $recent_prod) {
 							$recent_prod_product_link = base_url($recent_prod->product_name);
+							$link=base_url().'product/'.$recent_prod->product_name;
+
 
 							echo '<li class="featured-item">
-											<a href="' . $recent_prod_product_link . '">
+											<a href="' . $link . '">
 												<div class="image"><img src="' . get_product_thumb($recent_prod->product_id, 'thumb') . '"></div>
 												<div class="name">' . $recent_prod->product_title . '</div>
 											</a>
@@ -238,9 +281,9 @@ if ($product_discount != 0) {
 		<li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#menu1"> শর্তাবলী </a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#menu2">প্রোডাক্ট রিভিউ</a>
-		</li>
+<!--		<li class="nav-item">-->
+<!--			<a class="nav-link" data-toggle="tab" href="#menu2">প্রোডাক্ট রিভিউ</a>-->
+<!--		</li>-->
 	</ul>
 
 	<!-- Tab panes -->
@@ -376,73 +419,15 @@ if ($product_discount != 0) {
 	</div>
 </div>
 <br>
+
+<input type="hidden" name="related_category" value="<?php echo $product_cats;?>">
 <div class="container">
 	<h4 style="background-color: #ddd;padding: 7px;margin: 1px -16px;"> রিলেটেড প্রোডাক্ট </h4>
-	<div class="row">
-		<!--         single product relative start  ----------->
 
 
-		<?php
-		//	$related_products = get_related_products($prod_row->product_id, $product_cats);
-		$sql = "SELECT product_name,product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type FROM `product`  JOIN `term_relation` on product.product_id = term_relation.product_id AND term_relation.term_id IN($product_cats)  limit 20";
-		$related_products = get_result($sql);
+	<div id="load_data"></div>
+	<div id="load_data_message"></div>
 
-		foreach ($related_products as $rel_prod) {
-			/*# product price and discount #*/
-			$rel_prod_discount = false;
-
-			$rel_product_price = $rel_sell_price = $rel_prod->product_price;
-
-			$product_discount = $rel_prod->discount_price;
-			$discount_type = $rel_prod->discount_type;
-
-			if ($product_discount != 0) {
-				$rel_prod_discount = true;
-
-				$product_discount = $save_money = floatval($product_discount);
-
-				if ($discount_type == 'fixed') {
-					$rel_sell_price = ($rel_product_price - $product_discount);
-				} elseif ($discount_type == 'percent') {
-					$save_money = ($product_discount / 100) * $rel_product_price;
-					$rel_sell_price = floatval($rel_product_price - $save_money);
-				}
-			}
-			$_product_title = strip_tags($rel_prod->product_title);
-
-			?>
-
-
-			<div class="border col-md-2 col-6">
-				<a class="text-decoration-none	" href="<?= base_url($rel_prod->product_name) ?>">
-
-					<img class="img-fluid pt-3 zoomEffect"
-						 src="<?= get_product_thumb($rel_prod->product_id, 'thumb') ?>"
-						 title="Button Video Camera" alt="Button Video Camera"
-						 data-src="http://www.kalerhaat.com/uploads/PicsArt_08-07-10.02.40.jpg">
-				</a>
-
-				<div class="text-danger text-center font-weight-bold">
-					<del><?= formatted_price($rel_product_price) ?></del>
-				</div>
-				<div class="text-success text-center font-weight-bold "><span><?= formatted_price($rel_sell_price) ?>
-				</span>
-				</div>
-				<div class="text-center">
-					<a class="text-decoration-none	" href="<?= base_url($rel_prod->product_name) ?>">
-						<?= $_product_title ?>
-					</a>
-				</div>
-
-
-			</div>
-
-
-		<?php } ?>
-		<!--         single product relative end  ----------->
-
-
-	</div>
 </div>
 
 <style>
@@ -515,24 +500,61 @@ if ($product_discount != 0) {
 		position: absolute;
 	}
 </style>
+
 <script>
+	$('body').on('click','.ordinal_galary_image',function () {
+ var galary_image=$(this).attr('src');
 
-	function ProductAddTwoCart(Obj) {
+		$('#ordinal_galary_image').attr('src',galary_image);
+		$('.picbig').attr('src',galary_image);
 
-		serverPage = 'http://www.egbazar.com/cart/ajax_addcart/' + Obj;
-		xmlhttp.open("GET", serverPage);
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+	});
+</script>
 
-				var obj = JSON.parse(xmlhttp.responseText);
-				document.getElementById("totalCartItems2").innerHTML = obj.total_items + ' Items';
-				document.getElementById("CartDetailsTotal").innerHTML = obj.total_amount + ' Tk.';
-				document.getElementById("MtotalCartItems").innerHTML = obj.total_items;
+<script>
+	$(document).ready(function () {
 
-			}
+		var limit = 6;
+		var start = 0;
+		var action = 'inactive';
+		var related_category = $('input[name=related_category]').val();
+
+		function load_data(limit, start) {
+
+
+			$.ajax({
+				url: "<?php echo base_url(); ?>Ajax/scroll_related_product",
+				method: "POST",
+				data: {limit: limit, start: start, category_id: related_category},
+				cache: false,
+				success: function (data) {
+					if (data == '') {
+						$('#load_data_message').html('<h3>No More Result Found</h3>');
+						action = 'active';
+					} else {
+						$('#load_data').append(data);
+						$('#load_data_message').html("");
+						action = 'inactive';
+					}
+				}
+			})
 		}
-		xmlhttp.send(null);
 
-	}
+		if (action == 'inactive') {
+			action = 'active';
+			load_data(limit, start);
+		}
 
+		$(window).scroll(function () {
+			if ($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive') {
+
+				action = 'active';
+				start = start + limit;
+				setTimeout(function () {
+					load_data(limit, start);
+				}, 1000);
+			}
+		});
+
+	});
 </script>

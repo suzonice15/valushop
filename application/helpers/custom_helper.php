@@ -47,8 +47,8 @@ function get_uri_not_found_data($uri)
 	else
 	{
 		$ci->db->select('*');
-		$ci->db->from('post');
-		$ci->db->where('post_name', $uri);	
+		$ci->db->from('page');
+		$ci->db->where('page_link', $uri);	
 		$query=$ci->db->get();
 
 		if($query->num_rows()>0)

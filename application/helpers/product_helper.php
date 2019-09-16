@@ -266,6 +266,20 @@ function get_product_meta($product_id, $meta_key)
 		return $row->meta_value;
 	}
 }
+
+function get_product_meta_data($product_id)
+{
+	$ci=get_instance();
+	$ci->db->select('*');
+	$ci->db->from('product');
+	$ci->db->where('product_id', $product_id);
+	$query=$ci->db->get();
+	if($query->num_rows()>0)
+	{
+		//$row=$query->row();
+		return  $query->row();
+	}
+}
 function get_related_products($product_id, $product_cats)
 {
 	$ci=get_instance();

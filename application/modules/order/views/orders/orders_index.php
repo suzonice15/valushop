@@ -99,7 +99,7 @@ endforeach;								endif;?>
 						foreach ($orders as $row) {
 							$html .= '<tr>
 											<td>'.++$i.'</td>
-												<td>' . get_order_meta($row->order_id, 'billing_name') . '(' . get_order_meta($row->order_id, 'billing_phone') . ')</td>
+												<td>'.$row->customer_name.'</td>
 												<td>TK ' . $row->order_total . '</td>';
 
 							if ($row->created_by == 'customer') {

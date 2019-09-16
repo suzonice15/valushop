@@ -8,15 +8,15 @@
 	</div>
 	<div class="box-body">
 
-
+		
 
 
 		<form action="<?php echo base_url()?>product-update"  name="proudctUpdate" method="post" enctype="multipart/form-data" >
 			<div class="box-body">
 				<div class="row">
 					<div class="col-sm-6">
-						<div class="box box-primary">
-							<div class="box-header">
+						<div class="box box-primary" style="border: 2px solid #ddd;" >
+							<div class="box-header" style="background-color: #ddd;" >
 								<h3 class="box-title">General Info.</h3>
 							</div>
 							<div class="box-body">
@@ -47,19 +47,29 @@
 									<input type="text" class="form-control" name="sell_price" id="sell_price" value="<?php if(isset($product)){ echo $product->product_price;} ?>">
 								</div>
 
-								<div class="form-group <?=form_error('stock_qty') ? 'has-error' : ''?>">
+								<div hidden class="form-group <?=form_error('stock_qty') ? 'has-error' : ''?>">
 									<label for="stock_qty">Stock Qty.</label>
 									<input type="text" class="form-control" name="stock_qty" id="stock_qty" value="<?php if(isset($product)) { echo $product->product_stock;}?>">
 								</div>
+								<div class="form-group "><label for="product_availability">Product
+										Availability</label> <select name="product_availability"
+																	 class="form-control">
+										<option value="In stock">In stock</option>
+										<option value="Out of stock">Out of stock</option>
+										<option value="Upcoming">Upcoming</option>
+									</select></div>
+								<div class="form-group "><label for="product_availability">Product
+										Status</label> <select name="status"
+															   class="form-control">
+										<option value="1">Published</option>
+										<option value="0">Unpublished</option>
+									</select></div>
 
 
 								<div class="form-group">
 									<label for="product_type">Product Type</label>
 									<select name="product_type" class="form-control">
 										<option value="general">General</option>
-										<option value="bestsell">Best Sell</option>
-										<option value="1">Hotdeal One</option>
-										<option value="2">Hotdeal Two</option>
 										<option value="bestsell">Best Sell</option>
 										<option value="home">Home</option>
 
@@ -79,10 +89,41 @@
 
 
 					</div>
+					<div class="col-md-6">
+						<div class="box box-primary" style="border: 2px solid #ddd;" >
+							<div class="box-header" style="background-color: #ddd;" >
+								<h3 class="box-title">Categories</h3>
+							</div>
+							<div class="box-body" style="height: 300px;overflow: scroll">
+								<div class="form-group categories checkbox">
+									<?php
+									$category = array('categories' => array(),'parent_cats' => array());
+
+									$result = get_result("SELECT * FROM `category`");
+
+									if(isset($result))
+									{
+										foreach($result as $row)
+										{
+											$category['categories'][$row->category_id] = $row;
+
+											$category['parent_cats'][$row->parent_id][] = $row->category_id;
+										}
+
+										echo nested_category_checkbox_list(0, $category, $product_terms);
+									}
+									?>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
 
 					<div class="col-sm-6" >
-						<div class="box box-primary">
-							<div class="box-header">
+						<div class="box box-primary" style="border: 2px solid #ddd;" >
+							<div class="box-header" style="background-color: #ddd;" >
 								<h3 class="box-title">Image and Gallary</h3>
 							</div>
 							<div class="box-body" style="overflow: scroll;height: 400">
@@ -311,10 +352,10 @@
 
 				<div class="box-body">
 
-					<div class="row">
-						<div class="col-md-3">
-							<div class="box box-primary">
-								<div class="box-header">
+					<div  class="row">
+						<div hidden class="col-md-3">
+							<div class="box box-primary" style="border: 2px solid #ddd;" >
+								<div class="box-header" style="background-color: #ddd;" >
 									<h3 class="box-title">product size</h3>
 								</div>
 								<div class="box-body" style="height: 300px;overflow: scroll">
@@ -365,12 +406,12 @@
 
 
 
-						<div class="col-md-3">
+						<div hidden class="col-md-3">
 
 
 
-							<div class="box box-primary">
-								<div class="box-header">
+							<div class="box box-primary" style="border: 2px solid #ddd;" >
+								<div class="box-header" style="background-color: #ddd;" >
 									<h3 class="box-title">Product Color</h3>
 								</div>
 								<div class="box-body" style="height: 300px;overflow: scroll">
@@ -418,42 +459,12 @@
 						</div>
 
 
-						<div class="col-md-6">
-							<div class="box box-primary">
-								<div class="box-header">
-									<h3 class="box-title">Categories</h3>
-								</div>
-								<div class="box-body" style="height: 300px;overflow: scroll">
-									<div class="form-group categories checkbox">
-										<?php
-										$category = array('categories' => array(),'parent_cats' => array());
-
-										$result = get_result("SELECT * FROM `category`");
-
-										if(isset($result))
-										{
-											foreach($result as $row)
-											{
-												$category['categories'][$row->category_id] = $row;
-
-												$category['parent_cats'][$row->parent_id][] = $row->category_id;
-											}
-
-											echo nested_category_checkbox_list(0, $category, $product_terms);
-										}
-										?>
-									</div>
-								</div>
-							</div>
-
-						</div>
-
 					</div>
 
 				</div>
 			</div>
-			<div class="box box-primary">
-				<div class="box-header">
+			<div class="box box-primary" style="border: 2px solid #ddd;" >
+				<div class="box-header" style="background-color: #ddd;" >
 					<h3 class="box-title">Discount</h3>
 				</div>
 				<div class="box-body">
@@ -507,8 +518,8 @@
 				</div>
 			</div>
 
-			<div class="box box-primary">
-				<div class="box-header">
+			<div class="box box-primary" style="border: 2px solid #ddd;" >
+				<div class="box-header" style="background-color: #ddd;" >
 					<h3 class="box-title">Description</h3>
 				</div>
 				<div class="box-body">
@@ -518,8 +529,8 @@
 				</div>
 			</div>
 
-			<div class="box box-primary">
-				<div class="box-header">
+			<div class="box box-primary" style="border: 2px solid #ddd;" >
+				<div class="box-header" style="background-color: #ddd;" >
 					<h3 class="box-title">Summary</h3>
 				</div>
 				<div class="box-body">
@@ -529,8 +540,8 @@
 				</div>
 			</div>
 
-			<div class="box box-primary">
-				<div class="box-header">
+			<div class="box box-primary" style="border: 2px solid #ddd;" >
+				<div class="box-header" style="background-color: #ddd;" >
 					<h3 class="box-title">Terms &amp; Conditions</h3>
 				</div>
 				<div class="box-body">
@@ -541,7 +552,7 @@
 			</div>
 
 
-			<div class="box box-primary">
+			<div class="box box-primary" style="border: 2px solid #ddd;" >
 				<div class="box-body">
 					<div class="form-group ">
 						<label for="seo_title">SEO Title</label>
@@ -550,7 +561,7 @@
 
 					<div class="form-group  ">
 						<label for="seo_keywords">SEO Keywords</label>
-						<input type="text" class="form-control" name="seo_keywords" id="seo_keywords" value="<?php if(isset($product)) { echo $product->seo_keywords ; } ?>">
+						<input type="text"  rows="1" class="form-control" name="seo_keywords" id="seo_keywords" value="<?php if(isset($product)) { echo $product->seo_keywords ; } ?>">
 					</div>
 
 					<div class="form-group  ">
@@ -573,7 +584,9 @@
 </div>
 <script>
 		document.forms['proudctUpdate'].elements['product_type'].value="<?php echo $product->product_type;?>";
+		document.forms['proudctUpdate'].elements['status'].value="<?php echo $product->status;?>";
 		document.forms['proudctUpdate'].elements['discount_type'].value="<?php echo $product->discount_type;?>";
+		document.forms['proudctUpdate'].elements['product_availability'].value="<?php echo $product->product_availability;?>";
 
 		document.forms['proudctUpdate'].elements['discount_from'].value="<?php  echo get_product_meta($product->product_id, 'discount_from');?>";
 		document.forms['proudctUpdate'].elements['discount_to'].value="<?php  echo get_product_meta($product->product_id, 'discount_to');?>";

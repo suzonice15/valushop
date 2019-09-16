@@ -54,7 +54,7 @@ class ProductController extends MX_Controller
 		}
 
 
-		$config['per_page'] = 10;
+		$config['per_page'] = 5;
 		$counter = $this->input->post('counter');
 		if (!empty($counter)) {
 			if ($counter == 1) {
@@ -93,6 +93,8 @@ class ProductController extends MX_Controller
 	public function create()
 	{
 
+$data['random_number'] = rand(1000,9999);
+
 		$data['title'] = "Product registration form ";
 		$data['main'] = "Product";
 		$data['active'] = "Add Product";
@@ -120,6 +122,9 @@ class ProductController extends MX_Controller
 		$row_data['seo_content'] = $this->input->post('seo_content');
 		$row_data['sku'] = $this->input->post('sku');
 		$row_data['discount_type'] = $this->input->post('discount_type');
+		$row_data['product_availability'] = $this->input->post('product_availability');
+		$row_data['status'] = $this->input->post('status');
+
 		$row_data['discount_price'] = $this->input->post('discount_price');
 		$discount_price = $this->input->post('discount_price');
 		$discount_from = $this->input->post('discount_from');
@@ -168,8 +173,8 @@ class ProductController extends MX_Controller
 
 
 
-		$row_data['created_time'] = date("s-i-h-d-m-Y-");
-		$row_data['modified_time'] = date("s-i-h-d-m-Y-");
+		$row_data['created_time'] = date("Y-m-d h:i:s");
+		$row_data['modified_time'] = date("Y-m-d h:i:s");
 
 		$this->form_validation->set_rules('product_title', 'product title', 'trim|required');
 		$this->form_validation->set_rules('product_name', 'product name', 'trim|required');
@@ -197,9 +202,8 @@ class ProductController extends MX_Controller
 						$media_data = array();
 						$media_data['media_title'] = $row_data['product_title'];
 						$media_data['media_path'] = $uploaded_image_path;
-						$media_data['created_time'] = date("Y-m-d-h-");
-						$media_data['modified_time'] = date("s-i-h-d-m-Y-");
-						$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+						$media_data['created_time'] = date("Y-m-d h:i:s");
+						$media_data['modified_time'] = date("Y-m-d h:i:s");
 						$featured_image = $this->MainModel->returnInsertId('media', $media_data);
 						// resize image
 						$config['image_library'] = 'gd2';
@@ -210,7 +214,7 @@ class ProductController extends MX_Controller
 						$config['new_image'] = $uploaded_image_path;
 						$config['width'] = 150;
 						$config['height'] = 150;
-						$config['quality'] = '50%';
+						$config['quality'] = '80%';
 						$this->image_lib->clear();
 						$this->image_lib->initialize($config);
 						$this->image_lib->resize();
@@ -222,8 +226,8 @@ class ProductController extends MX_Controller
 							$media_data = array();
 							$media_data['media_title'] = $row_data['product_title'];
 							$media_data['media_path'] = $uploaded_file_path;
-							$media_data['created_time'] = date("s-i-h-d-m-Y-");
-							$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+							$media_data['created_time'] = date("Y-m-d h:i:s");
+							$media_data['modified_time'] = date("Y-m-d h:i:s");
 							$featured_image = $this->MainModel->returnInsertId('media', $media_data);
 
 
@@ -236,7 +240,7 @@ class ProductController extends MX_Controller
 							$config['new_image'] = $uploaded_file_path;
 							$config['width'] = 150;
 							$config['height'] = 150;
-							$config['quality'] = '50%';
+							$config['quality'] = '80%';
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
 							$this->image_lib->resize();
@@ -258,20 +262,20 @@ class ProductController extends MX_Controller
 							$media_data = array();
 							$media_data['media_title'] = $row_data['product_title'];
 							$media_data['media_path'] = $uploaded_image_path;
-							$media_data['created_time'] = date("s-i-h-d-m-Y-");
-							$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+							$media_data['created_time'] = date("Y-m-d h:i:s");
+							$media_data['modified_time'] = date("Y-m-d h:i:s");
 							$gallery_image[] = $this->MainModel->returnInsertId('media', $media_data);
 
 							// resize image
 							$config['image_library'] = 'gd2';
 							$config['source_image'] = $uploaded_image_path;
 							$config['create_thumb'] = false;
-							$config['maintain_ratio'] = TRUE;
+							$config['maintain_ratio'] = false;
 							$config['thumb_marker'] = '_thumb';
 							$config['new_image'] = $uploaded_image_path;
-							$config['width'] = 300;
-							$config['height'] = 300;
-							$config['quality'] = '50%';
+							$config['width'] = 500;
+							$config['height'] = 500;
+							$config['quality'] = '60%';
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
 							$this->image_lib->resize();
@@ -285,19 +289,20 @@ class ProductController extends MX_Controller
 								$media_data = array();
 								$media_data['media_title'] = $row_data['product_title'];
 								$media_data['media_path'] = $uploaded_image_path;
-								$media_data['created_time'] = date("s-i-h-d-m-Y-");
-								$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+								$media_data['created_time'] = date("Y-m-d h:i:s");
+								$media_data['modified_time'] = date("Y-m-d h:i:s");
 								$gallery_image[] = $this->MainModel->returnInsertId('media', $media_data);
 
 								// resize image
 								$config['image_library'] = 'gd2';
 								$config['source_image'] = $uploaded_image_path;
 								$config['create_thumb'] = false;
-								$config['maintain_ratio'] = TRUE;
+								$config['maintain_ratio'] = false;
 								$config['thumb_marker'] = '_thumb';
 								$config['new_image'] = $uploaded_image_path;
-								$config['width'] = 300;
-								$config['height'] = 300;
+								$config['width'] = 500;
+								$config['height'] = 500;
+								$config['quality'] = '60%';
 								$this->image_lib->clear();
 								$this->image_lib->initialize($config);
 								$this->image_lib->resize();
@@ -390,6 +395,9 @@ class ProductController extends MX_Controller
 		$row_data['sku'] = $this->input->post('sku');
 		$row_data['discount_type'] = $this->input->post('discount_type');
 		$row_data['discount_price'] = $this->input->post('discount_price');
+		$row_data['product_availability'] = $this->input->post('product_availability');
+		$row_data['status'] = $this->input->post('status');
+
 
 
 
@@ -440,8 +448,8 @@ class ProductController extends MX_Controller
 
 
 
-		$row_data['created_time'] = date("s-i-h-d-m-Y-");
-		$row_data['modified_time'] = date("s-i-h-d-m-Y-");
+		$row_data['created_time'] = date("Y-m-d h:i:s");
+		$row_data['modified_time'] = date("Y-m-d h:i:s");
 
 		$this->form_validation->set_rules('product_title', 'product title', 'trim|required');
 		$this->form_validation->set_rules('product_name', 'product name', 'trim|required');
@@ -470,20 +478,20 @@ class ProductController extends MX_Controller
 						$media_data = array();
 						$media_data['media_title'] = $row_data['product_title'];
 						$media_data['media_path'] = $uploaded_image_path;
-						$media_data['created_time'] = date("s-i-h-d-m-Y-");
-						$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+						$media_data['created_time'] = date("Y-m-d h:i:s");
+						$media_data['modified_time'] = date("Y-m-d h:i:s");
 						$featured_image = $this->MainModel->returnInsertId('media',$media_data);
 
 						// resize image
 						$config['image_library'] = 'gd2';
 						$config['source_image'] = $uploaded_image_path;
 						$config['create_thumb'] = TRUE;
-						$config['maintain_ratio'] = TRUE;
+						$config['maintain_ratio'] = false;
 						$config['thumb_marker'] = '_thumb';
 						$config['new_image'] = $uploaded_image_path;
 						$config['width'] = 150;
 						$config['height'] = 150;
-						$config['quality'] = '50%';
+						$config['quality'] = '80%';
 						$this->image_lib->clear();
 						$this->image_lib->initialize($config);
 						$this->image_lib->resize();
@@ -495,20 +503,20 @@ class ProductController extends MX_Controller
 							$media_data = array();
 							$media_data['media_title'] = $row_data['product_title'];
 							$media_data['media_path'] = $uploaded_file_path;
-							$media_data['created_time'] = date("s-i-h-d-m-Y-");
-							$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+							$media_data['created_time'] = date("Y-m-d h:i:s");
+							$media_data['modified_time'] = date("Y-m-d h:i:s");
 							$featured_image = $this->MainModel->returnInsertId('media',$media_data);
 
 							// resize image
 							$config['image_library'] = 'gd2';
 							$config['source_image'] = $uploaded_image_path;
 							$config['create_thumb'] = TRUE;
-							$config['maintain_ratio'] = TRUE;
+							$config['maintain_ratio'] = false;
 							$config['thumb_marker'] = '_thumb';
 							$config['new_image'] = $uploaded_image_path;
 							$config['width'] = 150;
 							$config['height'] = 150;
-							$config['quality'] = '50%';
+							$config['quality'] = '80%';
 
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
@@ -531,19 +539,20 @@ class ProductController extends MX_Controller
 							$media_data = array();
 							$media_data['media_title'] = $row_data['product_title'];
 							$media_data['media_path'] = $uploaded_image_path;
-							$media_data['created_time'] = date("s-i-h-d-m-Y-");
-							$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+							$media_data['created_time'] = date("Y-m-d h:i:s");
+							$media_data['modified_time'] = date("Y-m-d h:i:s");
 							$gallery_image[] =$this->MainModel->returnInsertId('media',$media_data);
 
 							// resize image
 							$config['image_library'] = 'gd2';
 							$config['source_image'] = $uploaded_image_path;
 							$config['create_thumb'] = false;
-							$config['maintain_ratio'] = TRUE;
+							$config['maintain_ratio'] = false;
 							$config['thumb_marker'] = '_thumb';
 							$config['new_image'] = $uploaded_image_path;
-							$config['width'] = 300;
-							$config['height'] = 300;
+							$config['width'] = 500;
+							$config['height'] = 500;
+							$config['quality'] = '60%';
 							$this->image_lib->clear();
 							$this->image_lib->initialize($config);
 							$this->image_lib->resize();
@@ -557,19 +566,21 @@ class ProductController extends MX_Controller
 								$media_data = array();
 								$media_data['media_title'] = $row_data['product_title'];
 								$media_data['media_path'] = $uploaded_image_path;
-								$media_data['created_time'] = date("s-i-h-d-m-Y-");
-								$media_data['modified_time'] = date("s-i-h-d-m-Y-");
+								$media_data['created_time'] = date("Y-m-d h:i:s");
+								$media_data['modified_time'] = date("Y-m-d h:i:s");
 								$gallery_image[] =$this->MainModel->returnInsertId('media',$media_data);
 
 								// resize image
 								$config['image_library'] = 'gd2';
 								$config['source_image'] = $uploaded_image_path;
 								$config['create_thumb'] = false;
-								$config['maintain_ratio'] = TRUE;
+								$config['maintain_ratio'] = false;
 								$config['thumb_marker'] = '_thumb';
 								$config['new_image'] = $uploaded_image_path;
-								$config['width'] = 300;
-								$config['height'] = 300;
+								$config['width'] = 500;
+								$config['height'] = 500;
+								$config['quality'] = '60%';
+
 								$this->image_lib->clear();
 								$this->image_lib->initialize($config);
 								$this->image_lib->resize();
@@ -884,6 +895,18 @@ if(isset($_GET['status'])){
 		$result = $this->MainModel->getSingleData('product_name', $url, 'product', '*');
 		if($result){
 			echo '<span style="color:red">This Product url exits try with another</span>';
+		}
+		else {
+			echo '';
+		}
+
+	}
+
+	public  function skuCheck(){
+		$sku=$this->input->post('sku');
+		$result = $this->MainModel->getSingleData('sku', $sku, 'product', '*');
+		if($result){
+			echo '<span style="color:red">This Product Code exits ennter  another</span>';
 		}
 		else {
 			echo '';
